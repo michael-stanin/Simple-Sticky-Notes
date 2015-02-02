@@ -1,19 +1,25 @@
 "use strict";
 
 var notes;
+var count;
 
 $(document).ready(function() {
 	debugger;
 	notes = $("#notes"); // get references to the 'notes' list
 	
 	try {
-		var storedNotes = localStorage.getItem('notes');
+		//localStorage.clear();
+		var storedNotes = localStorage.getItem("notes");
+		//alert(storedNotes);
 		if (storedNotes) {
-			var count = storedNotes.length;
-			
+			var notesArray = JSON.parse(storedNotes);
+			count = storedNotes.length;
 			for (var i = 0; i < count; i++) {
 				var storedNote = notesArray[i];
-				addNewNote(storedNote.Class, storedNote.Title, storedNote.Content);
+				/*alert(storedNote.Class);
+				alert(storedNote.Title);
+				alert(storedNote.Content);*/
+				addNewNote(storedNote.Class, storedNote.Title, storedNote.Content);	
 			}
 		}
 	}
@@ -22,7 +28,7 @@ $(document).ready(function() {
 	}
 
 	try {
-		$('.btnNew').on('click', function(event){
+		$("#btnNew").on('click', function(event){
 			addNewNote();
 		});
 	}
@@ -31,7 +37,7 @@ $(document).ready(function() {
 	}
 	
 	try {
-		$('.btnDel').click(function(event) {
+		$("#btnDel").click(function(event) {
 			alert(event.parentNode.tagName);
 	    	removeNote(event);
 		});
@@ -41,6 +47,7 @@ $(document).ready(function() {
 	}
 
 	try {
+		
 		$("#save").click(function() {
 			alert("In save");
 			var notesArray = [];
@@ -63,6 +70,7 @@ $(document).ready(function() {
 	catch(err) {
 		alert(err + "Failed attaching on click event for id=btnSave!");
 	}
+
 	function addNewNote(colorClass, title, content) {
 		var notes = $("#notes"); // get references to the 'notes' list
 		try {
@@ -135,7 +143,16 @@ $(document).ready(function() {
 				alert(err + "Appending div to li failed.")
 			}
 			
-			
+			$(img1).on('click', function(event){
+				//alert("New Clicked!");
+				addNewNote();
+			});
+
+			$(img2).click(function(event) {
+				alert(event.parentNode.tagName);
+		    	removeNote(event);
+			});
+
 			try {
 				notes.append(li);
 			}
