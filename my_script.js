@@ -4,22 +4,15 @@ var notes;
 var count = 0;
 
 $(document).ready(function() {
-	debugger;
 	notes = $("#notes"); // get references to the 'notes' list
 	
 	try {
-		//localStorage.clear();
 		var storedNotes = localStorage.getItem("notes");
-		//alert(storedNotes);
 		if (storedNotes) {
 			var notesArray = JSON.parse(storedNotes);
-			count = storedNotes.length;
+			count = notesArray.length;
 			for (var i = 0; i < count; i++) {
 				var storedNote = notesArray[i];
-				//alert(storedNote.Class);
-				//continue;
-				/*alert(storedNote.Title);
-				alert(storedNote.Content);*/
 				addNewNote(storedNote.Class, storedNote.Title, storedNote.Content);	
 			}
 		}
@@ -33,12 +26,11 @@ $(document).ready(function() {
 	});
 
 	$("#btnDel").click(function(event) {
-		alert(event.parentNode.tagName);
-    	removeNote(event);
+		var element = event.toElement;
+		removeNote(element);
 	});
 
 	$("#save").click(function() {
-		alert("In save");
 		var notesArray = [];
 
 		notes.find("li > div").each(function(i, e) {
@@ -58,7 +50,6 @@ $(document).ready(function() {
 	
 
 	function addNewNote(colorClass, title, content) {
-		var notes = $("#notes"); // get references to the 'notes' list
 		try {
 			var li = document.createElement('li');
 			var div = document.createElement('div');
@@ -80,7 +71,7 @@ $(document).ready(function() {
 			titleElement.setAttribute('maxlength', '10');
 			titleElement.setAttribute('class', 'note-title');
 			if (title) {
-				titleElement.setAttribute('placeholder', title);
+				titleElement.value = title;
 			}
 			else {
 				titleElement.setAttribute('placeholder', 'Untitled');
@@ -89,7 +80,7 @@ $(document).ready(function() {
 			var contentElement = document.createElement('textarea');
 			contentElement.setAttribute('class', 'note-content');
 			if (content) {
-				contentElement.setAttribute('placeholder', content);
+				contentElement.value = content;
 			}
 			else {
 				contentElement.setAttribute('placeholder', 'Your content here');
@@ -103,36 +94,37 @@ $(document).ready(function() {
 			li.appendChild(div);
 			
 			$(img1).on('click', function(event){
-				//alert("New Clicked!");
 				addNewNote();
 			});
 
 			$(img2).click(function(event) {
-				alert(event.parentNode.tagName);
-		    	removeNote(event);
+				var element = event.toElement;
+				removeNote(element);
 			});
 
 			notes.append(li);
+
+			/*
+			var storedNotes = localStorage.getItem("notes");
+			storedNotes = (storedNotes === null) ? [] : JSON.parse(storedNotes);
+			storedNotes.push({Title: title, Content: content, Class: colorClass});
+
+			var jsonStr = JSON.stringify(storedNotes);
+
+			localStorage.setItem("notes", jsonStr);
+			*/
 			
 		}
 		catch(err) {
 			alert(err + "Adding new sticky note failed.");
 		}
-			
-		
-		
 	}
 
 	function removeNote(element) {
-		alert(element.parentNode.parentNode.tagName);
 		element.parentNode.parentNode.parentNode.removeChild(element.parentNode.parentNode);
 	}
 
 	if (count == 0) {
 		addNewNote();
 	}
-});
-
-$(document).unload(function() {
-	alert("BYE!");
 });
