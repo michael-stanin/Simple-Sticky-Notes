@@ -1,127 +1,162 @@
-var $ = function (selector) {
-	return document.querySelector(selector);
-}
+"use strict";
 
-var user_notes = [];
+var notes;
 
-if(typeof(Storage) !== "undefined") {
-	Storage.prototype.setObject = function(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
-	}
-
-	Storage.prototype.getObject = function(key) {
-		return JSON.parse(localStorage.getItem(key));
-	}
-}
-else {
-	alert("It all went south...");
-}
-
-
-function addListeners() {
-	notes = document.getElementById('notes');
-			
-	var storedNotes = localStorage.getObject('notes');
-	if (storedNotes) {
-		var count = storedNotes.length;
-		
-		for (var i = 0; i < count; i++) {
-			var storedNote = notesArray[i];
-			addNewNote(storedNote.Class, storedNote.Title, storedNote.Content);
-		}
-	}
-	if (window.addEventListener) {
-		document.addEventListener('click', handleEvent, false);
-	}
-	else if (window.attachEvent) { // Added For Internet Explorer previous to IE9
-		document.attachEvent("onclick", handleEvent);
-	}
+$(document).ready(function() {
+	debugger;
+	notes = $("#notes"); // get references to the 'notes' list
 	
-	function handleEvent(event) {
-		event = event || window.event;
-		element = event.target || event.srcElement;
-		
-		if (element.getAttribute('id') === 'btnNew') {
-			addNewNote();
-		}
-		else if (element.getAttribute('id') === 'btnDel') {
-			removeNote(element);
-		}
-		else if (element.getAttribute('id') === 'save') {
-			var notesArray = new Array();
+	try {
+		var storedNotes = localStorage.getItem('notes');
+		if (storedNotes) {
+			var count = storedNotes.length;
 			
-			var divs = document.getElementsByTagName("div");
-			
-			for (var i = 0; i < divs.length; i++) {
-				var currentDiv = divs[i];
-				var divChildren = currentDiv.childNodes;
-				var colorClass = currentDiv.getAttribute('class');
-				//alert(divChildren[2]));
-				var title = divChildren[2];
-				var content = divChildren[3];
-				notesArray.push({Title: title, Content: content, Class: colorClass});
+			for (var i = 0; i < count; i++) {
+				var storedNote = notesArray[i];
+				addNewNote(storedNote.Class, storedNote.Title, storedNote.Content);
 			}
-			var notesObject = {};
-			notesObject.notes = notesArray;
+		}
+	}
+	catch(err) {
+		alert(err);
+	}
+
+	try {
+		$('.btnNew').on('click', function(event){
+			addNewNote();
+		});
+	}
+	catch(err) {
+		alert(err + "Failed attaching on click event for id=btnNew!");
+	}
+	
+	try {
+		$('.btnDel').click(function(event) {
+			alert(event.parentNode.tagName);
+	    	removeNote(event);
+		});
+	}
+	catch(err) {
+		alert(err + "Failed attaching on click event for id=btnDel!");
+	}
+
+	try {
+		$("#save").click(function() {
+			alert("In save");
+			var notesArray = [];
+
+			notes.find("li > div").each(function(i, e) {
+				var colourClass = $(e).attr("class");
+				var title = $(e).find("textarea.note-title");
+				var content = $(e).find("textarea.note-content");
+
+				notesArray.push({Index: i, Title: title.val(), Content: content.val(), Class: colourClass});
+			});
+
 			var jsonStr = JSON.stringify(notesArray);
+
 			localStorage.setItem("notes", jsonStr);
-			alert("Notes saved");
-		}
+
+			alert("Notes saved!");
+		});
 	}
-	
+	catch(err) {
+		alert(err + "Failed attaching on click event for id=btnSave!");
+	}
 	function addNewNote(colorClass, title, content) {
-		notes = document.getElementById('notes');
-		var li = document.createElement('li');
-		var div = document.createElement('div');
-		if (!colorClass) {
-			colorClass = "color" + Math.ceil(Math.random() * 3);
+		var notes = $("#notes"); // get references to the 'notes' list
+		try {
+			var li = document.createElement('li');
+			var div = document.createElement('div');
+			if (!colorClass) {
+				colorClass = "color" + Math.ceil(Math.random() * 3);
+			}
+			div.setAttribute('class', colorClass);
+			
+			var img1 = document.createElement('img');
+			img1.setAttribute('id', 'btnNew');
+			img1.setAttribute('src', 'images/addnote.png');
+			img1.setAttribute('style', 'float:left;');
+			var img2 = document.createElement('img');
+			img2.setAttribute('id', 'btnDel');
+			img2.setAttribute('src', 'images/deletenote.png');
+			img2.setAttribute('style', 'float:right;');
+			
+			var titleElement = document.createElement('textarea');
+			titleElement.setAttribute('maxlength', '10');
+			titleElement.setAttribute('class', 'note-title');
+			if (title) {
+				titleElement.setAttribute('placeholder', title);
+			}
+			else {
+				titleElement.setAttribute('placeholder', 'Untitled');
+			}
+			
+			var contentElement = document.createElement('textarea');
+			contentElement.setAttribute('class', 'note-content');
+			if (content) {
+				contentElement.setAttribute('placeholder', content);
+			}
+			else {
+				contentElement.setAttribute('placeholder', 'Your content here');
+			}
+			try {
+				div.appendChild(img1);
+			}
+			catch(err) {
+				alert(err + "first img failed.")
+			}
+
+			try {
+				div.appendChild(img2);
+			}
+			catch(err) {
+				alert(err + "second img failed.")
+			}
+			
+			try {
+				div.appendChild(titleElement);
+			}
+			catch(err) {
+				alert(err + "title failed.")
+			}
+
+			try {
+				div.appendChild(contentElement);
+			}
+			catch(err) {
+				alert(err + "content failed.")
+			}
+			
+			try {
+				li.appendChild(div);
+			}
+			catch(err) {
+				alert(err + "Appending div to li failed.")
+			}
+			
+			
+			try {
+				notes.append(li);
+			}
+			catch(err) {
+				alert(err + "Adding the new li to the ul failed.")
+			}
 		}
-		div.setAttribute('class', colorClass);
-		
-		var img1 = document.createElement('img');
-		img1.setAttribute('id', 'btnNew');
-		img1.setAttribute('src', 'images/addnote.png');
-		img1.setAttribute('style', 'float:left;');
-		var img2 = document.createElement('img');
-		img2.setAttribute('id', 'btnDel');
-		img2.setAttribute('src', 'images/deletenote.png');
-		img2.setAttribute('style', 'float:right;');
-		
-		var titleElement = document.createElement('textarea');
-		titleElement.setAttribute('maxlength', '10');
-		titleElement.setAttribute('class', 'note-title');
-		if (title) {
-			titleElement.setAttribute('placeholder', title);
+		catch(err) {
+			alert(err + "Something went south");
 		}
-		else {
-			titleElement.setAttribute('placeholder', 'Untitled');
-		}
+			
 		
-		var contentElement = document.createElement('textarea');
-		contentElement.setAttribute('class', 'note-content');
-		if (content) {
-			contentElement.setAttribute('placeholder', content);
-		}
-		else {
-			contentElement.setAttribute('placeholder', 'Your content here');
-		}
 		
-		div.appendChild(img1);
-		div.appendChild(img2);
-		div.appendChild(titleElement);
-		div.appendChild(contentElement);
-		
-		li.appendChild(div);
-		
-		notes.appendChild(li);
 	}
-	
+
 	function removeNote(element) {
+		alert(element.parentNode.parentNode.tagName);
 		element.parentNode.parentNode.parentNode.removeChild(element.parentNode.parentNode);
 	}
-}
+});
 
-window.onload = addListeners;
-
-
-
+$(document).unload(function() {
+	alert("BYE!");
+});
