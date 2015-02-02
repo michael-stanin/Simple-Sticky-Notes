@@ -68,7 +68,7 @@ $(document).ready(function() {
 			img2.setAttribute('style', 'float:right;');
 			
 			var titleElement = document.createElement('textarea');
-			titleElement.setAttribute('maxlength', '10');
+			titleElement.setAttribute('maxlength', '15');
 			titleElement.setAttribute('class', 'note-title');
 			if (title) {
 				titleElement.value = title;
