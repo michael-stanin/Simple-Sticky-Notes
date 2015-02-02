@@ -28,49 +28,34 @@ $(document).ready(function() {
 		alert(err);
 	}
 
-	try {
-		$("#btnNew").on('click', function(event){
-			addNewNote();
+	$("#btnNew").on('click', function(event){
+		addNewNote();
+	});
+
+	$("#btnDel").click(function(event) {
+		alert(event.parentNode.tagName);
+    	removeNote(event);
+	});
+
+	$("#save").click(function() {
+		alert("In save");
+		var notesArray = [];
+
+		notes.find("li > div").each(function(i, e) {
+			var colourClass = $(e).attr("class");
+			var title = $(e).find("textarea.note-title");
+			var content = $(e).find("textarea.note-content");
+
+			notesArray.push({Index: i, Title: title.val(), Content: content.val(), Class: colourClass});
 		});
-	}
-	catch(err) {
-		alert(err + "Failed attaching on click event for id=btnNew!");
-	}
+
+		var jsonStr = JSON.stringify(notesArray);
+
+		localStorage.setItem("notes", jsonStr);
+
+		alert("Notes saved!");
+	});
 	
-	try {
-		$("#btnDel").click(function(event) {
-			alert(event.parentNode.tagName);
-	    	removeNote(event);
-		});
-	}
-	catch(err) {
-		alert(err + "Failed attaching on click event for id=btnDel!");
-	}
-
-	try {
-		
-		$("#save").click(function() {
-			alert("In save");
-			var notesArray = [];
-
-			notes.find("li > div").each(function(i, e) {
-				var colourClass = $(e).attr("class");
-				var title = $(e).find("textarea.note-title");
-				var content = $(e).find("textarea.note-content");
-
-				notesArray.push({Index: i, Title: title.val(), Content: content.val(), Class: colourClass});
-			});
-
-			var jsonStr = JSON.stringify(notesArray);
-
-			localStorage.setItem("notes", jsonStr);
-
-			alert("Notes saved!");
-		});
-	}
-	catch(err) {
-		alert(err + "Failed attaching on click event for id=btnSave!");
-	}
 
 	function addNewNote(colorClass, title, content) {
 		var notes = $("#notes"); // get references to the 'notes' list
@@ -109,40 +94,13 @@ $(document).ready(function() {
 			else {
 				contentElement.setAttribute('placeholder', 'Your content here');
 			}
-			try {
-				div.appendChild(img1);
-			}
-			catch(err) {
-				alert(err + "first img failed.")
-			}
-
-			try {
-				div.appendChild(img2);
-			}
-			catch(err) {
-				alert(err + "second img failed.")
-			}
 			
-			try {
-				div.appendChild(titleElement);
-			}
-			catch(err) {
-				alert(err + "title failed.")
-			}
-
-			try {
-				div.appendChild(contentElement);
-			}
-			catch(err) {
-				alert(err + "content failed.")
-			}
-			
-			try {
-				li.appendChild(div);
-			}
-			catch(err) {
-				alert(err + "Appending div to li failed.")
-			}
+			div.appendChild(img1);
+			div.appendChild(img2);
+			div.appendChild(titleElement);
+			div.appendChild(contentElement);
+		
+			li.appendChild(div);
 			
 			$(img1).on('click', function(event){
 				//alert("New Clicked!");
@@ -154,15 +112,11 @@ $(document).ready(function() {
 		    	removeNote(event);
 			});
 
-			try {
-				notes.append(li);
-			}
-			catch(err) {
-				alert(err + "Adding the new li to the ul failed.")
-			}
+			notes.append(li);
+			
 		}
 		catch(err) {
-			alert(err + "Something went south");
+			alert(err + "Adding new sticky note failed.");
 		}
 			
 		
