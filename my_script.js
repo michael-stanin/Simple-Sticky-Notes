@@ -1,7 +1,7 @@
 "use strict";
 
 var notes;
-var count;
+var count = 0;
 
 $(document).ready(function() {
 	debugger;
@@ -16,8 +16,9 @@ $(document).ready(function() {
 			count = storedNotes.length;
 			for (var i = 0; i < count; i++) {
 				var storedNote = notesArray[i];
-				/*alert(storedNote.Class);
-				alert(storedNote.Title);
+				//alert(storedNote.Class);
+				//continue;
+				/*alert(storedNote.Title);
 				alert(storedNote.Content);*/
 				addNewNote(storedNote.Class, storedNote.Title, storedNote.Content);	
 			}
@@ -171,6 +172,10 @@ $(document).ready(function() {
 	function removeNote(element) {
 		alert(element.parentNode.parentNode.tagName);
 		element.parentNode.parentNode.parentNode.removeChild(element.parentNode.parentNode);
+	}
+
+	if (count == 0) {
+		addNewNote();
 	}
 });
 
