@@ -88,7 +88,7 @@ $(document).ready(function() {
 			});
 
 			notes.append(li);
-
+			//$(img2).click();
 		}
 		catch(err) {
 			alert(err + "Adding new sticky note failed.");
