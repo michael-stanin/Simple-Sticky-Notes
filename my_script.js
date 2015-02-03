@@ -34,6 +34,10 @@ $(document).ready(function() {
 		save();
 	});
 	
+	debugger;
+	$(window).on("beforeunload", (function() {
+		save();
+	});
 
 	function addNewNote(colorClass, title, content) {
 		try {
@@ -123,6 +127,3 @@ function save() {
 	alert("Notes saved!");
 }
 
-$(window).on("beforeunload", (function() {
-	save();
-});
