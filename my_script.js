@@ -21,7 +21,7 @@ $(document).ready(function() {
 		alert(err);
 	}
 
-	$("#btnNew").on('click', function(event){
+	$("#btnNew").on('click', function(){
 		addNewNote();
 	});
 
@@ -31,21 +31,7 @@ $(document).ready(function() {
 	});
 
 	$("#save").click(function() {
-		var notesArray = [];
-
-		notes.find("li > div").each(function(i, e) {
-			var colourClass = $(e).attr("class");
-			var title = $(e).find("textarea.note-title");
-			var content = $(e).find("textarea.note-content");
-
-			notesArray.push({Index: i, Title: title.val(), Content: content.val(), Class: colourClass});
-		});
-
-		var jsonStr = JSON.stringify(notesArray);
-
-		localStorage.setItem("notes", jsonStr);
-
-		alert("Notes saved!");
+		save();
 	});
 	
 
@@ -104,16 +90,6 @@ $(document).ready(function() {
 
 			notes.append(li);
 
-			/*
-			var storedNotes = localStorage.getItem("notes");
-			storedNotes = (storedNotes === null) ? [] : JSON.parse(storedNotes);
-			storedNotes.push({Title: title, Content: content, Class: colorClass});
-
-			var jsonStr = JSON.stringify(storedNotes);
-
-			localStorage.setItem("notes", jsonStr);
-			*/
-			
 		}
 		catch(err) {
 			alert(err + "Adding new sticky note failed.");
@@ -127,4 +103,26 @@ $(document).ready(function() {
 	if (count == 0) {
 		addNewNote();
 	}
+});
+
+function save() {
+	var notesArray = [];
+
+	notes.find("li > div").each(function(i, e) {
+		var colourClass = $(e).attr("class");
+		var title = $(e).find("textarea.note-title");
+		var content = $(e).find("textarea.note-content");
+
+		notesArray.push({Index: i, Title: title.val(), Content: content.val(), Class: colourClass});
+	});
+
+	var jsonStr = JSON.stringify(notesArray);
+
+	localStorage.setItem("notes", jsonStr);
+
+	alert("Notes saved!");
+}
+
+$(window).on("beforeunload", (function() {
+	save();
 });
