@@ -28,14 +28,10 @@ $(document).ready(function() {
 	$("#btnDel").click(function(event) {
 		var element = event.toElement;
 		removeNote(element);
-	});
-
-	$("#save").click(function() {
-		save();
-	});
+	});	
 	
-	debugger;
-	$(window).on("beforeunload", (function() {
+	
+	$(window).on("beforeunload", function() {
 		save();
 	});
 
@@ -53,9 +49,13 @@ $(document).ready(function() {
 			img1.setAttribute('src', 'images/addnote.png');
 			img1.setAttribute('style', 'float:left;');
 			var img2 = document.createElement('img');
-			img2.setAttribute('id', 'btnDel');
-			img2.setAttribute('src', 'images/deletenote.png');
-			img2.setAttribute('style', 'float:right;');
+			img2.setAttribute('id', 'btnSave');
+			img2.setAttribute('src', 'images/saveNotes.png');
+			img2.setAttribute('style', 'float:left;');
+			var img3 = document.createElement('img');
+			img3.setAttribute('id', 'btnDel');
+			img3.setAttribute('src', 'images/deletenote.png');
+			img3.setAttribute('style', 'float:right;');
 			
 			var titleElement = document.createElement('textarea');
 			titleElement.setAttribute('maxlength', '15');
@@ -78,16 +78,21 @@ $(document).ready(function() {
 			
 			div.appendChild(img1);
 			div.appendChild(img2);
+			div.appendChild(img3);
 			div.appendChild(titleElement);
 			div.appendChild(contentElement);
 		
 			li.appendChild(div);
 			
-			$(img1).on('click', function(event){
+			$(img1).on('click', function(){
 				addNewNote();
 			});
 
-			$(img2).click(function(event) {
+			$(img2).on('click', function(){
+				saveNotes();
+			});
+
+			$(img3).click(function(event) {
 				var element = event.toElement;
 				removeNote(element);
 			});
@@ -109,7 +114,7 @@ $(document).ready(function() {
 	}
 });
 
-function save() {
+function saveNotes() {
 	var notesArray = [];
 
 	notes.find("li > div").each(function(i, e) {
@@ -123,7 +128,5 @@ function save() {
 	var jsonStr = JSON.stringify(notesArray);
 
 	localStorage.setItem("notes", jsonStr);
-
-	alert("Notes saved!");
 }
 
