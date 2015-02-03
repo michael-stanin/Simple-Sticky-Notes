@@ -21,18 +21,8 @@ $(document).ready(function() {
 		alert(err);
 	}
 
-	$("#btnNew").on('click', function(){
-		addNewNote();
-	});
-
-	$("#btnDel").click(function(event) {
-		var element = event.toElement;
-		removeNote(element);
-	});	
-	
-	
 	$(window).on("beforeunload", function() {
-		save();
+		saveNotes();
 	});
 
 	function addNewNote(colorClass, title, content) {
