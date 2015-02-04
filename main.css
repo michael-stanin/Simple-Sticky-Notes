@@ -1,0 +1,37 @@
+body{
+	font-family: arial,sans-serif;
+	font-size: 100%;
+	margin: 3em;
+	background: #ffffff url("images/1295157.jpg") no-repeat right top;
+}
+
+form {
+	background: transparent;
+	color: #ffc;
+	border: 0px;
+}
+
+input {
+	background: transparent;
+	border: 2px solid black;
+}
+
+input, select, textarea{
+    color: #cfc;
+}
+
+textarea:focus, input:focus {
+    color: #cfc;
+}
+
+.login {
+	color: #ffc;
+	width: 50%;
+	float: left;
+}
+
+.register {
+	color: #ffc;
+	width: 50%;
+	float: right;
+}
