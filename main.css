@@ -6,6 +6,7 @@ body{
 }
 
 form {
+	font-size: 120%;
 	background: transparent;
 	color: #ffc;
 	border: 0px;
@@ -17,10 +18,12 @@ input {
 }
 
 input, select, textarea{
+	font-size: 70%;
     color: #cfc;
 }
 
 textarea:focus, input:focus {
+	font-size: 90%;
     color: #cfc;
 }
 
