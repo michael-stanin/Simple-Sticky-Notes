@@ -1,4 +1,6 @@
-"use strict"
+"use strict";
+
+var usersArray;
 
 $(document).ready(function () {
 	$('.login').on('click', function() {
@@ -12,18 +14,6 @@ $(document).ready(function () {
 			addNewUser();
 		}
 	});
-
-	function addNewUser() {
-		// Add the user to the local storage.	
-	}
-
-	function doesUserExist(username, password) {
-		// Check if the user is in the local storage
-	}
-
-	function loadUserStickyNotes () {
-		// Load the user's notes
-	}
 
 	function validate() {
 		var username = $('#username').val();
@@ -39,5 +29,36 @@ $(document).ready(function () {
 		}
 
 		return true;
+	}
+
+	function addNewUser() {
+		// Add the user to the local storage.
+		var username = $('#username').val();
+		var password = $('#username').val();
+		var users = localStorage.getItem('users');
+		usersArray = (users === null) ? [] : JSON.parse(users);
+		if (userExist(username)) {
+			alert("This username already exists!");
+		}
+		else {
+			var index = usersArray.length + 1;
+			usersArray.push({Index: index, Username: username, Passwrd: password});
+			var jsonStr = JSON.stringify(usersArray);
+			localStorage.setItem('users', jsonStr);
+		}
+	}
+
+	function userExist(username) {
+		// Check if the user is in the local storage
+		for(var key in usersArray) {
+			if (usersArray[key].Username == username) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	function loadUserStickyNotes () {
+		// Load the user's notes
 	}
 });
