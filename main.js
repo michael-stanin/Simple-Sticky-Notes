@@ -17,7 +17,7 @@ $(document).ready(function () {
 
 	function validate() {
 		var username = $('#username').val();
-		var password = $('#username').val();
+		var password = $('#password').val();
 
 		if (username === "") {
 			alert("Enter valid username");
@@ -34,7 +34,7 @@ $(document).ready(function () {
 	function addNewUser() {
 		// Add the user to the local storage.
 		var username = $('#username').val();
-		var password = $('#username').val();
+		var password = $('#password').val();
 		var users = localStorage.getItem('users');
 		usersArray = (users === null) ? [] : JSON.parse(users);
 		if (userExist(username)) {
@@ -71,9 +71,14 @@ $(document).ready(function () {
 	function loadUserStickyNotes () {
 		// Load the user's notes
 		var username = $('#username').val();
-		var password = $('#username').val();
+		var password = $('#password').val();
+		var users = localStorage.getItem('users');
+		usersArray = (users === null) ? [] : JSON.parse(users);
 		if (userExist(username) && correctCredentials(username, password)) {
 			
+		}
+		else {
+			alert("Your credentials are wrong. Try again.");
 		}
 	}
 });
