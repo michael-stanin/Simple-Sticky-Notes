@@ -5,7 +5,7 @@ var usersArray;
 $(document).ready(function () {
 	$('.login').on('click', function() {
 		if (validate()) {
-			doesUserExist(username, password);
+			loadUserStickyNotes();
 		}
 	});
 
@@ -51,7 +51,17 @@ $(document).ready(function () {
 	function userExist(username) {
 		// Check if the user is in the local storage
 		for(var key in usersArray) {
-			if (usersArray[key].Username == username) {
+			if (usersArray[key].Username === username) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	function correctCredentials(username, password) {
+		for (var key in usersArray) {
+			if (usersArray[key].Username === username &&
+				usersArray[key].Passwrd === password) {
 				return true;
 			}
 		}
@@ -60,5 +70,10 @@ $(document).ready(function () {
 
 	function loadUserStickyNotes () {
 		// Load the user's notes
+		var username = $('#username').val();
+		var password = $('#username').val();
+		if (userExist(username) && correctCredentials(username, password)) {
+			
+		}
 	}
 });
