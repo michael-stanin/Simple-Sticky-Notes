@@ -19,12 +19,18 @@ input {
 
 input, select, textarea{
 	font-size: 70%;
-    color: #cfc;
 }
 
 textarea:focus, input:focus {
 	font-size: 90%;
-    color: #cfc;
+}
+
+#username {
+	color: #cfc;
+}
+
+#password {
+	color: #cfc;
 }
 
 .login {

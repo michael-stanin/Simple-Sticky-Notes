@@ -1,13 +1,19 @@
 "use strict";
 
 var notes;
+var user;
 var count = 0;
+
 
 $(document).ready(function() {
 	notes = $("#notes"); // get references to the 'notes' list
-	
+
+	user = window.history.state.Username; // get the username from the history
+
+	// Load the user's sticky note if there are any.
 	try {
-		var storedNotes = localStorage.getItem("notes");
+		var usernotes = user + " notes";
+		var storedNotes = localStorage.getItem(usernotes);
 		if (storedNotes) {
 			var notesArray = JSON.parse(storedNotes);
 			count = notesArray.length;
@@ -20,11 +26,12 @@ $(document).ready(function() {
 	catch(err) {
 		alert(err);
 	}
-
+	
 	$(window).on("beforeunload", function() {
 		saveNotes();
 	});
 
+	// Add new sticky note to the list of notes.
 	function addNewNote(colorClass, title, content) {
 		try {
 			var li = document.createElement('li');
@@ -88,35 +95,35 @@ $(document).ready(function() {
 			});
 
 			notes.append(li);
-			//$(img2).click();
 		}
 		catch(err) {
 			alert(err + "Adding new sticky note failed.");
 		}
 	}
 
+	// Remove sticky note from the list of sticky notes.
 	function removeNote(element) {
 		element.parentNode.parentNode.parentNode.removeChild(element.parentNode.parentNode);
+	}
+
+	// Save all sticky notes.
+	function saveNotes() {
+		var notesArray = [];
+
+		notes.find("li > div").each(function(i, e) {
+			var colourClass = $(e).attr("class");
+			var title = $(e).find("textarea.note-title");
+			var content = $(e).find("textarea.note-content");
+
+			notesArray.push({Index: i, Title: title.val(), Content: content.val(), Class: colourClass});
+		});
+
+		var jsonStr = JSON.stringify(notesArray);
+		var usernotes = user + " notes";
+		localStorage.setItem(usernotes, jsonStr);
 	}
 
 	if (count == 0) {
 		addNewNote();
 	}
 });
-
-function saveNotes() {
-	var notesArray = [];
-
-	notes.find("li > div").each(function(i, e) {
-		var colourClass = $(e).attr("class");
-		var title = $(e).find("textarea.note-title");
-		var content = $(e).find("textarea.note-content");
-
-		notesArray.push({Index: i, Title: title.val(), Content: content.val(), Class: colourClass});
-	});
-
-	var jsonStr = JSON.stringify(notesArray);
-
-	localStorage.setItem("notes", jsonStr);
-}
-

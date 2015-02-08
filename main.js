@@ -15,24 +15,25 @@ $(document).ready(function () {
 		}
 	});
 
+	// Check if there is a value for user and passowrd.
 	function validate() {
 		var username = $('#username').val();
 		var password = $('#password').val();
 
 		if (username === "") {
-			alert("Enter valid username");
+			alert("Enter username");
 			return false;
 		}
 		if (password === "") {
-			alert("Enter valid password");
+			alert("Enter password");
 			return false;
 		}
 
 		return true;
 	}
 
+	// Add the user to the local storage.
 	function addNewUser() {
-		// Add the user to the local storage.
 		var username = $('#username').val();
 		var password = $('#password').val();
 		var users = localStorage.getItem('users');
@@ -48,8 +49,8 @@ $(document).ready(function () {
 		}
 	}
 
+	// Check if the user is in the local storage.
 	function userExist(username) {
-		// Check if the user is in the local storage
 		for(var key in usersArray) {
 			if (usersArray[key].Username === username) {
 				return true;
@@ -58,6 +59,7 @@ $(document).ready(function () {
 		return false;
 	}
 
+	// Check user credentials.
 	function correctCredentials(username, password) {
 		for (var key in usersArray) {
 			if (usersArray[key].Username === username &&
@@ -68,14 +70,19 @@ $(document).ready(function () {
 		return false;
 	}
 
+	// Load the user's notes.
 	function loadUserStickyNotes () {
-		// Load the user's notes
 		var username = $('#username').val();
 		var password = $('#password').val();
 		var users = localStorage.getItem('users');
 		usersArray = (users === null) ? [] : JSON.parse(users);
 		if (userExist(username) && correctCredentials(username, password)) {
-			
+			window.event.preventDefault();
+			var obj = {Username: username};
+			var jsonStr = JSON.stringify(obj);
+			window.history.replaceState(obj, "", "");
+			$('#LoginForm').load("loggedIn.html", jsonStr, function(data, status) {
+			});
 		}
 		else {
 			alert("Your credentials are wrong. Try again.");
