@@ -1,8 +1,8 @@
 body{
 	font-family: arial,sans-serif;
 	font-size: 100%;
-	margin: 3em;
 	background: #ffffff url("images/1295157.jpg") no-repeat right top;
+	text-align: center;
 }
 
 form {
@@ -17,11 +17,11 @@ input {
 	border: 2px solid black;
 }
 
-input, select, textarea{
+input, select{
 	font-size: 70%;
 }
 
-textarea:focus, input:focus {
+input:focus {
 	font-size: 90%;
 }
 
@@ -43,4 +43,10 @@ textarea:focus, input:focus {
 	color: #ffc;
 	width: 50%;
 	float: right;
+}
+
+.logout {
+	color: #ffc;
+	width: 50%;
+	margin: 0 auto;
 }
