@@ -10,6 +10,6 @@ Simple, user friendly sticky notes extension for Google Chrome.
   5. **Check** *Developer Mode* box.
   6. **Click** on *Load unpacked extension*.
   7. **Select** the folder in which is the unzipped folder.
-  8. Click **OK**.
+  8. **Click** *OK*.
 
-The icon for the application should appear right of the address bar.
+The **icon** for the application should appear right of the address bar.
