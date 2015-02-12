@@ -18,12 +18,12 @@ The **icon** for the application should appear right of the address bar.
 
 ### User administration
   
-  1. Create user name:
+  1. **Create** user name:
     *  **Enter** *user name*
     *  **Enter** *password*
     *  **Click** *Sign up*
   
-  2. Sign in:
+  2. **Sign in**:
     * **Enter** *user name*
     * **Enter** *password*
     * **Click** *Sign in*
