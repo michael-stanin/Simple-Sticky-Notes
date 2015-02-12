@@ -30,7 +30,7 @@ The **icon** for the application should appear right of the address bar.
   
 ### Sticky notes
   
-Once your signed in you should have at least one loaded empty sticky note.
+Once you're signed in you should have _**at least one**_ loaded empty sticky note.
 
   1. **Create** new sticky note: 
     * **Click** on the *"plus"*
