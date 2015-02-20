@@ -202,7 +202,7 @@ function addNewNote(colorClass, title, content) {
 		}
 		
 		div.appendChild(img1);
-		//div.appendChild(img2);
+		div.appendChild(img2);
 		div.appendChild(img3);
 		div.appendChild(titleElement);
 		div.appendChild(contentElement);
