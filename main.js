@@ -14,7 +14,7 @@ $(document).ready(function () {
 	usersArray = (users === null) ? [] : JSON.parse(users);
 
 	$('#btnLogout').toggle(); // hide the logout button at start
-
+	
 	$('.login').on('click', function() {
 		if (validate()) {
 			loadUserStickyNotes();
@@ -30,14 +30,39 @@ $(document).ready(function () {
 	$('.logout').on('click', function() {
 		$('#notes').toggle(300);
 		$('#LoginForm').toggle(300);
+		localStorage.setItem('lastLogged', "notLogged");
 	});
 
 	$(window).on("beforeunload", function() {
 		saveNotes();
 	});
 
-	
+	$(window).on("load", function() {
+		checkIfLoggedIn();
+	})
 });
+
+// Check if a user has already logged in.
+function checkIfLoggedIn() {
+	var isUserLogged = localStorage.getItem("loggedIn");
+	isUserLogged = JSON.parse(isUserLogged);
+	var loggedInUser = localStorage.getItem("lastLogged");
+
+	if (isUserLogged === "true" && loggedInUser !== "notLogged") {
+		window.event.preventDefault();
+		$('#LoginForm').toggle();
+		loadStickyNotes(loggedInUser);
+		$('#btnLogout').toggle();
+	}
+}
+
+// Set the logged in user.
+function setLoggedInUser() {
+	var loggedIn = "true";
+	var jsonStr = JSON.stringify(loggedIn);
+	localStorage.setItem('loggedIn', jsonStr);
+	localStorage.setItem('lastLogged', currentUser);
+}
 
 // Check if there is a value for user and passowrd.
 function validate() {
@@ -98,6 +123,8 @@ function loadUserStickyNotes () {
 		$('#LoginForm').toggle(300);
 		loadStickyNotes();
 		$('#btnLogout').toggle(300);
+
+		setLoggedInUser();
 	}
 	else {
 		alert("Wrong username or password. Try again.");
@@ -105,7 +132,10 @@ function loadUserStickyNotes () {
 }
 	
 
-function loadStickyNotes() {
+function loadStickyNotes(user) {
+	if (user) {
+		currentUser = user;
+	}
 	// Load the user's sticky note if there are any.
 	try {
 		var usernotes = currentUser + " notes";
