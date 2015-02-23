@@ -37,6 +37,7 @@ Once you're signed in you should have _**at least one**_ loaded empty sticky not
   2. **Delete** sticky note:
     * **Click** on the *"cross"*
   3. **Save** sticky notes:
+    * **Click** on *"floppy disk"*
     * **Click** on *Sign out*
 
 # Restrictions
