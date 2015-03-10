@@ -42,6 +42,6 @@ Once you're signed in you should have _**at least one**_ loaded empty sticky not
 
 # Restrictions
   * If the user _**is not signed out**_ the sticky notes _**are not saved**_!
-  * User name's length is _**at least**_ 2 characters
-  * Password's length is _**at least**_ 4 characters
+  * User name's max length _**is**_ 10 characters
+  * Password's max length _**is**_ 20 characters
   * Sticky note's title max length _**is**_ 15 characters
