@@ -249,4 +249,5 @@ function saveNotes() {
 	var jsonStr = JSON.stringify(notesArray);
 	var usernotes = currentUser + " notes";
 	localStorage.setItem(usernotes, jsonStr);
+	alert("Notes saved!");
 }
